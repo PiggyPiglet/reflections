@@ -4,10 +4,12 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.*;
 import org.reflections.scanners.*;
-import org.reflections.scanners.Scanner;
 import org.reflections.serializers.Serializer;
 import org.reflections.serializers.XmlSerializer;
-import org.reflections.util.*;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
+import org.reflections.util.Utils;
 import org.reflections.vfs.Vfs;
 import org.slf4j.Logger;
 
@@ -20,7 +22,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -233,7 +238,7 @@ public class Reflections {
                 values += store.get(index).size();
             }
 
-            log.info(format("Reflections took %d ms to scan %d urls, producing %d keys and %d values %s",
+            log.debug(format("Reflections took %d ms to scan %d urls, producing %d keys and %d values %s",
                     time, scannedUrls, keys, values,
                     executorService != null && executorService instanceof ThreadPoolExecutor ?
                             format("[using %d cores]", ((ThreadPoolExecutor) executorService).getMaximumPoolSize()) : ""));
@@ -315,7 +320,7 @@ public class Reflections {
                 values += store.get(index).size();
             }
 
-            log.info(format("Reflections took %d ms to collect %d url%s, producing %d keys and %d values [%s]",
+            log.debug(format("Reflections took %d ms to collect %d url%s, producing %d keys and %d values [%s]",
                     System.currentTimeMillis() - start, urls.size(), urls.size() > 1 ? "s" : "", keys, values, Joiner.on(", ").join(urls)));
         }
         return reflections;
@@ -327,7 +332,7 @@ public class Reflections {
     public Reflections collect(final InputStream inputStream) {
         try {
             merge(configuration.getSerializer().read(inputStream));
-            if (log != null) log.info("Reflections collected metadata from input stream using serializer " + configuration.getSerializer().getClass().getName());
+            if (log != null) log.debug("Reflections collected metadata from input stream using serializer " + configuration.getSerializer().getClass().getName());
         } catch (Exception ex) {
             throw new ReflectionsException("could not merge input stream", ex);
         }
@@ -669,7 +674,7 @@ public class Reflections {
     public File save(final String filename, final Serializer serializer) {
         File file = serializer.save(this, filename);
         if (log != null) //noinspection ConstantConditions
-            log.info("Reflections successfully saved in " + file.getAbsolutePath() + " using " + serializer.getClass().getSimpleName());
+            log.debug("Reflections successfully saved in " + file.getAbsolutePath() + " using " + serializer.getClass().getSimpleName());
         return file;
     }
 
