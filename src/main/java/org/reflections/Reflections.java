@@ -388,6 +388,7 @@ public class Reflections {
             Multimap<String, String> mmap = store.get(index(SubTypesScanner.class));
             Sets.SetView<String> keys = Sets.difference(mmap.keySet(), Sets.newHashSet(mmap.values()));
             Multimap<String, String> expand = HashMultimap.create();
+
             for (String key : keys) {
                 final Class<?> type = forName(key, loaders());
                 if (type != null) {
