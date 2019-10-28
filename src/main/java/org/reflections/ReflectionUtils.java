@@ -383,17 +383,17 @@ public abstract class ReflectionUtils {
                     }
                 }
                 try { return classLoader.loadClass(type); }
-                catch (Throwable e) {
-                    reflectionsExceptions.add(new ReflectionsException("could not get type for name " + typeName, e));
+                catch (Throwable ignored) {
+                    //reflectionsExceptions.add(new ReflectionsException("could not get type for name " + typeName, e));
                 }
             }
 
-            if (Reflections.log != null) {
-                for (ReflectionsException reflectionsException : reflectionsExceptions) {
-                    Reflections.log.warn("could not get type for name " + typeName + " from any class loader",
-                            reflectionsException);
-                }
-            }
+//            if (Reflections.log != null) {
+//                for (ReflectionsException reflectionsException : reflectionsExceptions) {
+//                    Reflections.log.warn("could not get type for name " + typeName + " from any class loader",
+//                            reflectionsException);
+//                }
+//            }
 
             return null;
         }
