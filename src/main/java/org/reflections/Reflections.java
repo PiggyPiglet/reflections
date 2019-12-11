@@ -254,7 +254,8 @@ public class Reflections {
                 Predicate<String> inputsFilter = configuration.getInputsFilter();
                 String path = file.getRelativePath();
                 String fqn = path.replace('/', '.');
-                if (inputsFilter == null || inputsFilter.apply(path) || inputsFilter.apply(fqn)) {
+
+                if (inputsFilter == null || inputsFilter.apply(fqn)) {
                     Object classObject = null;
                     for (Scanner scanner : configuration.getScanners()) {
                         try {

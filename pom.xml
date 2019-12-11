@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.piggypiglet</groupId>
     <artifactId>reflections</artifactId>
-    <version>0.9.14</version>
+    <version>0.9.15</version>
     <name>Reflections</name>
     <description>Reflections - a Java runtime metadata analysis</description>
     <url>http://github.com/ronmamo/reflections</url>
